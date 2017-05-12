@@ -1,0 +1,93 @@
+doctype html
+html
+	head
+		title iTutor
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		link(rel='stylesheet', href='assets/css/main.css')
+		link(rel='stylesheet', href='assets/css/ie8.css')
+
+	body
+
+		section(id='header')
+			header
+				img(src='images/logo.png' alt="")
+			nav(id='nav')
+				ul
+					li
+						a(href='/') Current Services
+						|
+						|
+					li
+						a(href='service_requests') Service Requests
+						|
+						|
+					li
+						a(href='history') History
+						|
+						|
+					li
+						a(href='profile' class="active") Profile
+						|
+						|
+					li
+						a(href='account_settings') Account Settings
+						|
+						|
+					li
+						a(href='') Log-out
+
+			footer
+				ul(class='icons')
+					li
+						a(href='#' class='icon fa-twitter')
+						span(class='label') Twitter
+					li
+						a(href='#' class='icon fa-facebook')
+						span(class='label') Facebook
+					li
+						a(href='#' class='icon fa-instagram')
+						span(class='label') Instagram
+					li
+						a(href='#' class='icon fa-github')
+						span(class='label') Github
+					li
+						a(href='#' class='icon fa-envelope')
+						span(class='label') Email
+
+		div(id='wrapper')
+			div(id='main')
+				section(id='one')
+					div(class='container')
+						header(class='major')
+							h2= message
+
+
+						form(method='get' action='')
+							p Service Provider ID
+							p= spid
+							p Name
+							p= fullname
+							p E-mail
+							p= email
+							p Description
+							p= description
+							p Age
+							p= age
+							p Contact Number
+							p= contactno
+							p Home Address
+							p= homeaddress
+
+							input(type='button' onclick='editProfile()' value='Edit')
+script.
+	function editProfile() {
+		window.location.href = '/edit_profile'
+	}
+
+script(src='assets/js/jquery.min.js')
+script(src="assets/js/jquery.scrollzer.min.js")
+script(src="assets/js/jquery.scrolly.min.js")
+script(src="assets/js/skel.min.js")
+script(src="assets/js/util.js")
+script(src="assets/js/main.js")
