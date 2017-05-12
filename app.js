@@ -34,7 +34,7 @@ app.get('/', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT * FROM requests,customer where isAcceptedRequest="T"', function (err, rows, fields) {
+	connection.query('SELECT * FROM requests where isAcceptedRequest="T"', function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
@@ -46,7 +46,9 @@ app.get('/', function (req, res) {
 				var currentServices = {
 					title: 'Current Services',
 					message: 'Current Services',
-					'customer_name': rows[i].customer_name,
+					'request_id': rows[i].request_id,
+					'id_specialization': rows[i].id_specialization,
+					'id_customer': rows[i].id_customer,
 					'scheduled_time': rows[i].scheduled_time,
 					'scheduled_day': rows[i].scheduled_day,
 					'status': rows[i].status,

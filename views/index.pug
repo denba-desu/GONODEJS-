@@ -63,7 +63,9 @@ html
 							h2= message
 						table
 							tr
-									th= 'Customer Name'
+									th= 'Request ID'
+									th= 'Specialization ID'
+									th= 'Customer ID'
 									th= 'Scheduled Time'
 									th=	'Scheduled Day'
 									th= 'Status'
@@ -71,8 +73,9 @@ html
 
 							for currentServices in currentCustomerList
 								tr
-				
-									td= currentServices.customer_name
+									td= currentServices.request_id
+									td= currentServices.id_specialization
+									td= currentServices.id_customer
 									td= currentServices.scheduled_time
 									td= currentServices.scheduled_day
 									td= currentServices.status
