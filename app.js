@@ -1,7 +1,7 @@
 var express = require('express');
 var mysql = require('mysql');
 //var cookieParser = require('cookie-parser');
-//var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 //var multer = require('multer');
 //var upload = multer(); // for parsing multipart/form-data
 //var expressValidator = require('express-validator');
@@ -13,8 +13,10 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 
 app.use(express.static(__dirname + '/views'));
-//app.use(bodyParser.json()); // for parsing application/json
-//app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
 //app.use(expressValidator()); // Add this after the bodyParser middleware!
 
 function getMySQLConnection() {
@@ -98,10 +100,25 @@ app.get('/service_requests', function (req, res) {
 
 			// Render index.pug page using array
 			res.render('service_requests', {"serviceRequestsList": serviceRequestsList});
+
 		}
 	});
 	connection.end();
 })
+
+app.post('/service_requests', function(req, res) {	
+	var request_id = req.body.request_id;
+
+	var connection = getMySQLConnection();
+	connection.connect();
+
+	connection.query('UPDATE requests SET isAcceptedRequest="T" WHERE request_id = ?;', [request_id], function(err, row, fields){
+		var html = 'The ID Request ' + request_id + ' successfuly accepted.'
+		res.send(html)
+	})
+	connection.end();
+});
+
 
 app.get('/history', function (req, res) {
 	var historyServicesList = [];
@@ -206,7 +223,6 @@ app.get('/account_settings', function (req, res) {
 	})
 })
 
-
 /*
 app.('/update_profile', function(req, res) {
 	var connection = getMySQLConnection();
@@ -217,6 +233,21 @@ app.('/update_profile', function(req, res) {
 	})
 })
 */
+/*
+app.get('/accept_request', function(req, res) {
+
+	var html = '<form action="/accept_request" method="post">'+
+					'Enter Request ID: ' +
+					'<input type="text" name="request_id" placeholder="Enter here"/>'+
+					'<br>' +
+					'<button type="submit">Accept</button>'
+				'</form>';
+				
+	res.send(service_requests);
+
+});
+*/
+
 
 app.get('/update_profile', function(req, res) {
 	res.render('edit_profile', {

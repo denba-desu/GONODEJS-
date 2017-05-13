@@ -60,15 +60,14 @@ html
 				section(id='one')
 					div(class='container')
 						header(class='major')
-							h2= message
+							h2= 'Service Requests'
 						table
 							tr
 									th= 'Request ID'
 									th= 'Specialization ID'
 									th= 'Customer ID'
 									th= 'Scheduled Time'
-									th=	'Scheduled Day.'
-									th= 'Response'
+									th=	'Scheduled Day'
 
 							for serviceRequests in serviceRequestsList
 								tr
@@ -77,6 +76,15 @@ html
 									td= serviceRequests.id_customer
 									td= serviceRequests.scheduled_time
 									td= serviceRequests.scheduled_day
+					div(class='container')
+						header(class='major')
+							h2= 'Accept Request'
+							form(action='/service_requests', method='post')
+								p Enter Request ID:
+								input(type='text', name='request_id', placeholder='Enter Request ID')
+								br
+								button(type='submit') Accept
+								button(type='submit') Decline
 
 script(src='assets/js/jquery.min.js')
 script(src="assets/js/jquery.scrollzer.min.js")
