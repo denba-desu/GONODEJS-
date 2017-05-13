@@ -72,7 +72,7 @@ app.post('/status', function (req, res) {
 	connection.connect();
 
 	connection.query('UPDATE requests SET status="Done" WHERE request_id = ?;', [request_id], function (err, row, fields) {
-		var html = 'The ID Request ' + request_id + ' successfuly updated the status to "Done".' +
+		var html = 'You successfully updated the service status of ID Request: ' + request_id + 'to "Done."' +
 					'<br><a href=/>Click here to go back in Current Services</a>'
 		res.send(html)
 	})
@@ -85,7 +85,7 @@ app.post('/payment', function (req, res) {
 	connection.connect();
 
 	connection.query('UPDATE requests SET isPaid="T" WHERE request_id = ?;', [request_id1], function (err, row, fields) {
-		var html = 'The ID Request ' + request_id1 + ' successfuly updated the payment status to "Paid".' +
+		var html = 'You successfully updated the payment status of ID Request: ' + request_id1 + 'to "Paid."' +
 					'<br><a href=/>Click here to go back in Current Services</a>'
 		res.send(html)
 	})
@@ -138,7 +138,7 @@ app.post('/service_requests', function(req, res) {
 	connection.connect();
 
 	connection.query('UPDATE requests SET isAcceptedRequest="T" WHERE request_id = ?;', [request_id], function(err, row, fields){
-		var html = 'The ID Request ' + request_id + ' successfuly accepted.' +
+		var html = 'You successfully accepted the request of ID Request: ' + request_id + '!'
 					'<br><a href=/service_requests>Click here to go back in Service Requests</a>'
 		res.send(html)
 	})
@@ -247,31 +247,6 @@ app.get('/account_settings', function (req, res) {
 		message: 'Page for the account settings.'
 	})
 })
-
-/*
-app.('/update_profile', function(req, res) {
-	var connection = getMySQLConnection();
-	connection.connect();
-
-	connection.query('UPDATE serviceprovider SET fullname: ', function (err, rows, fields) {
-
-	})
-})
-*/
-/*
-app.get('/accept_request', function(req, res) {
-
-	var html = '<form action="/accept_request" method="post">'+
-					'Enter Request ID: ' +
-					'<input type="text" name="request_id" placeholder="Enter here"/>'+
-					'<br>' +
-					'<button type="submit">Accept</button>'
-				'</form>';
-				
-	res.send(service_requests);
-
-});
-*/
 
 
 app.get('/update_profile', function(req, res) {
