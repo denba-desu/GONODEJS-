@@ -34,7 +34,7 @@ app.get('/', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT * FROM requests a, services b, customer c where (a.isAcceptedRequest="T" && b.service_id =any (select id_service from provider_specialization)) && (a.status != "Done" && id_customer = customer_id)', function (err, rows, fields) {
+	connection.query('SELECT request_id,customer_name,service_name,scheduled_time,scheduled_day,status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, services b, customer c where (a.isAcceptedRequest="T" && b.service_id =any (select id_service from provider_specialization)) && (a.status != "Done" && id_customer = customer_id)', function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
@@ -52,7 +52,7 @@ app.get('/', function (req, res) {
 					'scheduled_time': rows[i].scheduled_time,
 					'scheduled_day': rows[i].scheduled_day,
 					'status': rows[i].status,
-					'isPaid': rows[i].isPaid
+					'Payment': rows[i].Payment
 				}
 				// Add object into array
 				currentCustomerList.push(currentServices);
