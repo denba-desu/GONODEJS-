@@ -28,12 +28,8 @@ function getMySQLConnection() {
 	});
 }
 
+
 app.get('/', function (req, res) {
-	res.render('index');
-
-})
-
-app.get('/current_services', function (req, res) {
 	var currentCustomerList = [];
 
 	//Connect to MySQL database.
@@ -65,7 +61,7 @@ app.get('/current_services', function (req, res) {
 			}
 
 			// Render index.pug page using array
-			res.render('current_services', {"currentCustomerList": currentCustomerList});
+			res.render('index', {"currentCustomerList": currentCustomerList});
 		}
 	});
 	connection.end();
@@ -78,7 +74,7 @@ app.post('/status', function (req, res) {
 
 	connection.query('UPDATE requests SET status="Done" WHERE request_id = ?;', [request_id], function (err, row, fields) {
 		var html = 'You successfully updated the service status of ID Request: ' + request_id + ' to "Done."' +
-					'<br><a href=/current_services>Click here to go back in Current Services</a>'
+					'<br><a href=/index>Click here to go back in Current Services</a>'
 		res.send(html)
 	})
 	connection.end();
@@ -91,7 +87,7 @@ app.post('/payment', function (req, res) {
 
 	connection.query('UPDATE requests SET isPaid="T" WHERE request_id = ?;', [request_id1], function (err, row, fields) {
 		var html = 'You successfully updated the payment status of ID Request: ' + request_id1 + ' to "Paid."' +
-					'<br><a href=/current_services>Click here to go back in Current Services</a>'
+					'<br><a href=/index>Click here to go back in Current Services</a>'
 		res.send(html)
 	})
 	connection.end();
