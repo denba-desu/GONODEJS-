@@ -64,16 +64,16 @@ html
 						table
 							tr
 									th= 'Request ID'
-									th= 'Specialization ID'
-									th= 'Customer ID'
+									th= 'Service Name'
+									th= 'Customer Name'
 									th= 'Scheduled Time'
 									th=	'Scheduled Day'
 
 							for serviceRequests in serviceRequestsList
 								tr
 									td= serviceRequests.request_id
-									td= serviceRequests.id_specialization
-									td= serviceRequests.id_customer
+									td= serviceRequests.service_name
+									td= serviceRequests.customer_name
 									td= serviceRequests.scheduled_time
 									td= serviceRequests.scheduled_day
 					div(class='container')
