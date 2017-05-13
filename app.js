@@ -41,7 +41,7 @@ app.get('/current_services', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT request_id,customer_name,service_name,scheduled_time,scheduled_day,status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, services b, customer c where (a.isAcceptedRequest="T" && b.service_id =any (select id_service from provider_specialization)) && (a.status != "Done" && id_customer = customer_id)', function (err, rows, fields) {
+	connection.query('SELECT request_id,customer_name,service_name,scheduled_time,scheduled_day,status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, services b, customer c where (a.isAcceptedRequest="T" && b.service_id =any (select id_service from provider_specialization)) && (a.status = "Done" && id_customer = customer_id)', function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
@@ -158,7 +158,7 @@ app.get('/history', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT * FROM requests where isAcceptedRequest="T" and isPaid="T" and status="Done"', function (err, rows, fields) {
+	connection.query('SELECT request_id,customer_name,service_name,scheduled_time,scheduled_day,status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, services b, customer c where ( isPaid = "T" && b.service_id =any (select id_service from provider_specialization)) && (a.status = "Done" && id_customer = customer_id)', function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
@@ -169,12 +169,12 @@ app.get('/history', function (req, res) {
 				// Create on object to save current row's data
 				var historyServices = {
 					'request_id': rows[i].request_id,
-					'id_specialization': rows[i].id_specialization,
-					'id_customer': rows[i].id_customer,
+					'customer_name': rows[i].customer_name,
+					'service_name': rows[i].service_name,
 					'scheduled_time': rows[i].scheduled_time,
 					'scheduled_day': rows[i].scheduled_day,
 					'status': rows[i].status,
-					'isPaid': rows[i].isPaid
+					'Payment': rows[i].Payment
 				}
 				// Add object into array
 				historyServicesList.push(historyServices);

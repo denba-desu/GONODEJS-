@@ -65,8 +65,8 @@ html
 						table
 							tr
 									th= ' Request ID'
-									th= 'Specialization ID'
-									th= 'Customer ID'
+									th= 'Customer Name'
+									th= 'Service Name'
 									th= 'Scheduled Time'
 									th=	'Scheduled Day'
 									th= 'Status'
@@ -76,12 +76,12 @@ html
 							for historyServices in historyServicesList
 								tr
 									td= historyServices.request_id
-									td= historyServices.id_specialization
-									td= historyServices.id_customer
+									td= historyServices.customer_name
+									td= historyServices.service_name
 									td= historyServices.scheduled_time
 									td= historyServices.scheduled_day
 									td= historyServices.status
-									td= historyServices.isPaid
+									td= historyServices.Payment
 
 
 script(src='assets/js/jquery.min.js')
