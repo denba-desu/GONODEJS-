@@ -60,7 +60,7 @@ html
 				section(id='one')
 					div(class='container')
 						header(class='major')
-							h2= message
+							h2= 'Current Services'
 						table
 							tr
 									th= 'Request ID'
@@ -80,6 +80,25 @@ html
 									td= currentServices.scheduled_day
 									td= currentServices.status
 									td= currentServices.Payment
+
+					div(class='container')
+						header(class='major')
+							h2= "Update Customer Status to 'Done'"
+							form(action='/status', method='post')
+								p Enter Request ID:
+								input(type='text', name='request_id' placeholder='Enter Request ID')
+								br
+								button(type='submit') Done
+
+					div(class='container')
+						header(class='major')
+							h2= "Update Customer Payment Status into 'Paid'"
+							form(action='/payment', method='post')
+								p Enter Request ID:
+								input(type='text', name='request_id1' placeholder='Enter Request ID')
+								br
+								button(type='submit') Paid
+
 script(src='assets/js/jquery.min.js')
 script(src="assets/js/jquery.scrollzer.min.js")
 script(src="assets/js/jquery.scrolly.min.js")

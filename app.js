@@ -47,7 +47,6 @@ app.get('/', function (req, res) {
 				// Create on object to save current row's data
 				var currentServices = {
 					title: 'Current Services',
-					message: 'Current Services',
 					'request_id': rows[i].request_id,
 					'customer_name': rows[i].customer_name,
 					'service_name':rows[i].service_name,
@@ -66,6 +65,33 @@ app.get('/', function (req, res) {
 	});
 	connection.end();
 })
+
+app.post('/status', function (req, res) {
+	var request_id = req.body.request_id;
+	var connection = getMySQLConnection();
+	connection.connect();
+
+	connection.query('UPDATE requests SET status="Done" WHERE request_id = ?;', [request_id], function (err, row, fields) {
+		var html = 'The ID Request ' + request_id + ' successfuly updated the status to "Done".' +
+					'<br><a href=/>Click here to go back in Current Services</a>'
+		res.send(html)
+	})
+	connection.end();
+})
+
+app.post('/payment', function (req, res) {
+	var request_id1 = req.body.request_id1;
+	var connection = getMySQLConnection();
+	connection.connect();
+
+	connection.query('UPDATE requests SET isPaid="T" WHERE request_id = ?;', [request_id1], function (err, row, fields) {
+		var html = 'The ID Request ' + request_id1 + ' successfuly updated the payment status to "Paid".' +
+					'<br><a href=/>Click here to go back in Current Services</a>'
+		res.send(html)
+	})
+	connection.end();
+})
+
 
 
 app.get('/service_requests', function (req, res) {
@@ -108,15 +134,14 @@ app.get('/service_requests', function (req, res) {
 
 app.post('/service_requests', function(req, res) {	
 	var request_id = req.body.request_id;
-
 	var connection = getMySQLConnection();
 	connection.connect();
 
 	connection.query('UPDATE requests SET isAcceptedRequest="T" WHERE request_id = ?;', [request_id], function(err, row, fields){
-		var html = 'The ID Request ' + request_id + ' successfuly accepted.'
+		var html = 'The ID Request ' + request_id + ' successfuly accepted.' +
+					'<br><a href=/service_requests>Click here to go back in Service Requests</a>'
 		res.send(html)
 	})
-	connection.end();
 });
 
 
