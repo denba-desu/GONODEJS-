@@ -64,8 +64,8 @@ html
 						table
 							tr
 									th= 'Request ID'
-									th= 'Specialization ID'
-									th= 'Customer ID'
+									th= 'Customer Name'
+									th= 'Service Name'
 									th= 'Scheduled Time'
 									th=	'Scheduled Day'
 									th= 'Status'
@@ -74,8 +74,8 @@ html
 							for currentServices in currentCustomerList
 								tr
 									td= currentServices.request_id
-									td= currentServices.id_specialization
-									td= currentServices.id_customer
+									td= currentServices.customer_name
+									td= currentServices.service_name
 									td= currentServices.scheduled_time
 									td= currentServices.scheduled_day
 									td= currentServices.status

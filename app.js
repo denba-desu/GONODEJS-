@@ -22,7 +22,7 @@ function getMySQLConnection() {
 		host		: 'localhost',
 		user		: 'root',
 		password	: '',
-		database	: 'webtek',
+		database	: 'webtek-2',
 	});
 }
 
@@ -34,7 +34,7 @@ app.get('/', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT * FROM requests where isAcceptedRequest="T"', function (err, rows, fields) {
+	connection.query('SELECT * FROM requests a, services b, customer c where (a.isAcceptedRequest="T" && b.service_id =any (select id_service from provider_specialization)) && a.status != "Done"', function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
@@ -47,8 +47,8 @@ app.get('/', function (req, res) {
 					title: 'Current Services',
 					message: 'Current Services',
 					'request_id': rows[i].request_id,
-					'id_specialization': rows[i].id_specialization,
-					'id_customer': rows[i].id_customer,
+					'customer_name': rows[i].customer_name,
+					'service_name':rows[i].service_name,
 					'scheduled_time': rows[i].scheduled_time,
 					'scheduled_day': rows[i].scheduled_day,
 					'status': rows[i].status,
