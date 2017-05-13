@@ -72,7 +72,7 @@ app.post('/status', function (req, res) {
 	connection.connect();
 
 	connection.query('UPDATE requests SET status="Done" WHERE request_id = ?;', [request_id], function (err, row, fields) {
-		var html = 'You successfully updated the service status of ID Request: ' + request_id + 'to "Done."' +
+		var html = 'You successfully updated the service status of ID Request: ' + request_id + ' to "Done."' +
 					'<br><a href=/>Click here to go back in Current Services</a>'
 		res.send(html)
 	})
@@ -85,7 +85,7 @@ app.post('/payment', function (req, res) {
 	connection.connect();
 
 	connection.query('UPDATE requests SET isPaid="T" WHERE request_id = ?;', [request_id1], function (err, row, fields) {
-		var html = 'You successfully updated the payment status of ID Request: ' + request_id1 + 'to "Paid."' +
+		var html = 'You successfully updated the payment status of ID Request: ' + request_id1 + ' to "Paid."' +
 					'<br><a href=/>Click here to go back in Current Services</a>'
 		res.send(html)
 	})
