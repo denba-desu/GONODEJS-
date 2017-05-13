@@ -29,6 +29,11 @@ function getMySQLConnection() {
 }
 
 app.get('/', function (req, res) {
+	res.render('index');
+
+})
+
+app.get('/current_services', function (req, res) {
 	var currentCustomerList = [];
 
 	//Connect to MySQL database.
@@ -60,7 +65,7 @@ app.get('/', function (req, res) {
 			}
 
 			// Render index.pug page using array
-			res.render('index', {"currentCustomerList": currentCustomerList});
+			res.render('current_services', {"currentCustomerList": currentCustomerList});
 		}
 	});
 	connection.end();
@@ -73,7 +78,7 @@ app.post('/status', function (req, res) {
 
 	connection.query('UPDATE requests SET status="Done" WHERE request_id = ?;', [request_id], function (err, row, fields) {
 		var html = 'You successfully updated the service status of ID Request: ' + request_id + ' to "Done."' +
-					'<br><a href=/>Click here to go back in Current Services</a>'
+					'<br><a href=/current_services>Click here to go back in Current Services</a>'
 		res.send(html)
 	})
 	connection.end();
@@ -86,7 +91,7 @@ app.post('/payment', function (req, res) {
 
 	connection.query('UPDATE requests SET isPaid="T" WHERE request_id = ?;', [request_id1], function (err, row, fields) {
 		var html = 'You successfully updated the payment status of ID Request: ' + request_id1 + ' to "Paid."' +
-					'<br><a href=/>Click here to go back in Current Services</a>'
+					'<br><a href=/current_services>Click here to go back in Current Services</a>'
 		res.send(html)
 	})
 	connection.end();
@@ -138,7 +143,7 @@ app.post('/service_requests', function(req, res) {
 	connection.connect();
 
 	connection.query('UPDATE requests SET isAcceptedRequest="T" WHERE request_id = ?;', [request_id], function(err, row, fields){
-		var html = 'You successfully accepted the request of ID Request: ' + request_id + '!'
+		var html = 'You successfully accepted the request of ID Request: ' + request_id + '!' +
 					'<br><a href=/service_requests>Click here to go back in Service Requests</a>'
 		res.send(html)
 	})
@@ -182,14 +187,7 @@ app.get('/history', function (req, res) {
 	connection.end();
 })
 
-/*
-app.get('/history', function (req, res) {
-	res.render('history', {
-		title: 'History',
-		message: 'Page for viewing client history.'
-	})
-})
-*/
+
 app.get('/profile', function (req, res) {
 	var connection = getMySQLConnection();
 	connection.connect();

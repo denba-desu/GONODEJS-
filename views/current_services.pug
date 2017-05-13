@@ -1,0 +1,107 @@
+doctype html
+html
+	head
+		title iTutor
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		link(rel='stylesheet', href='assets/css/main.css')
+		link(rel='stylesheet', href='assets/css/ie8.css')
+
+	body
+
+		section(id='header')
+			header
+				img(src='images/logo.png' alt="")
+			nav(id='nav')
+				ul
+					li
+						a(href='/current_services' class="active") Current Services
+						|
+						|
+					li
+						a(href='service_requests') Service Requests
+						|
+						|
+					li
+						a(href='history') History
+						|
+						|
+					li
+						a(href='profile') Profile
+						|
+						|
+					li
+						a(href='account_settings') Account Settings
+						|
+						|
+					li
+						a(href='') Log-out
+
+			footer
+				ul(class='icons')
+					li
+						a(href='#' class='icon fa-twitter')
+						span(class='label') Twitter
+					li
+						a(href='#' class='icon fa-facebook')
+						span(class='label') Facebook
+					li
+						a(href='#' class='icon fa-instagram')
+						span(class='label') Instagram
+					li
+						a(href='#' class='icon fa-github')
+						span(class='label') Github
+					li
+						a(href='#' class='icon fa-envelope')
+						span(class='label') Email
+
+		div(id='wrapper')
+			div(id='main')
+				section(id='one')
+					div(class='container')
+						header(class='major')
+							h2= 'Current Services'
+						table
+							tr
+									th= 'Request ID'
+									th= 'Customer Name'
+									th= 'Service Name'
+									th= 'Scheduled Time'
+									th=	'Scheduled Day'
+									th= 'Status'
+									th= 'Payment'
+
+							for currentServices in currentCustomerList
+								tr
+									td= currentServices.request_id
+									td= currentServices.customer_name
+									td= currentServices.service_name
+									td= currentServices.scheduled_time
+									td= currentServices.scheduled_day
+									td= currentServices.status
+									td= currentServices.Payment
+
+					div(class='container')
+						header(class='major')
+							h2= "Update Customer Status to 'Done'"
+							form(action='/status', method='post')
+								p Enter Request ID:
+								input(type='text', name='request_id' placeholder='Enter Request ID')
+								br
+								button(type='submit') Done
+
+					div(class='container')
+						header(class='major')
+							h2= "Update Customer Payment Status into 'Paid'"
+							form(action='/payment', method='post')
+								p Enter Request ID:
+								input(type='text', name='request_id1' placeholder='Enter Request ID')
+								br
+								button(type='submit') Paid
+
+script(src='assets/js/jquery.min.js')
+script(src="assets/js/jquery.scrollzer.min.js")
+script(src="assets/js/jquery.scrolly.min.js")
+script(src="assets/js/skel.min.js")
+script(src="assets/js/util.js")
+script(src="assets/js/main.js")
