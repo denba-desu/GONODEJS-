@@ -1,23 +1,23 @@
-var express = require('express');
-var mysql = require('mysql');
-//var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-//var multer = require('multer');
-//var upload = multer(); // for parsing multipart/form-data
-//var expressValidator = require('express-validator');
 var path = require('path')
+var express = require('express');
 var app = express();
+var mysql = require('mysql');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
+var expressSession = require('express-session');
 var port = 3000;
 
 app.set('views', './views');
 app.set('view engine', 'pug');
 
-app.use(express.static(__dirname + '/views'));
+
 app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({
-	extended: false
-}));
-//app.use(expressValidator()); // Add this after the bodyParser middleware!
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(expressValidator());
+app.use(cookieParser());
+app.use(express.static(__dirname + '/views'));
+app.use(expressSession({secret: 'max', saveUninitialized: false, resave: false}));
 
 function getMySQLConnection() {
 	return mysql.createConnection({
