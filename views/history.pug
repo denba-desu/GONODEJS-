@@ -61,6 +61,8 @@ html
 					div(class='container')
 						header(class='major')
 							h2= 'History'
+
+							input#myInput(type='text', onkeyup='myFunction()', placeholder='Search for customer names..')
 							p
 								| Sort by:
 								button(onclick='sortTable0()') Request ID
