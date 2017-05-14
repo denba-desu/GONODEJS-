@@ -61,7 +61,15 @@ html
 					div(class='container')
 						header(class='major')
 							h2= 'Service Requests'
-						table
+							p
+								| Sort by:
+								button(onclick='sortTable0()') Request ID
+								button(onclick='sortTable1()') Service Name
+								button(onclick='sortTable2()') Customer Name
+								button(onclick='sortTable3()') Scheduled Time
+								button(onclick='sortTable4()') Scheduled Day
+
+						table(id='myTable')
 							tr
 									th= 'Request ID'
 									th= 'Service Name'
@@ -92,3 +100,4 @@ script(src="assets/js/jquery.scrolly.min.js")
 script(src="assets/js/skel.min.js")
 script(src="assets/js/util.js")
 script(src="assets/js/main.js")
+script(src="assets/js/sort_table_service_requests.js")

@@ -138,7 +138,7 @@ app.post('/service_requests', function(req, res) {
 	var connection = getMySQLConnection();
 	connection.connect();
 
-	connection.query('UPDATE requests SET isAcceptedRequest="T" WHERE request_id = ?;', [request_id], function(err, row, fields){
+	connection.query('UPDATE requests SET status="Ongoing" WHERE request_id = ?;', [request_id], function(err, row, fields){
 		var html = 'You successfully accepted the request of ID Request: ' + request_id + '!' +
 					'<br><a href=/service_requests>Click here to go back in Service Requests</a>'
 		res.send(html)
