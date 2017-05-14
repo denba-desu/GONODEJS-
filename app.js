@@ -154,7 +154,7 @@ app.get('/history', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT request_id,customer_name,service_name,scheduled_time,scheduled_day,status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, services b, customer c where ( isPaid = "T" && b.service_id =any (select id_service from provider_specialization)) && (a.status = "Done" && id_customer = customer_id)', function (err, rows, fields) {
+	connection.query('SELECT request_id, customer_name, service_name,  scheduled_time, scheduled_day, status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, customer b, services c where (status = "Done" && a.customer_id = b.customer_id) && (a.service_id = c.service_id && isPaid = "T")', function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
