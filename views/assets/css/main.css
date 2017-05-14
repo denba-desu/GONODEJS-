@@ -9,6 +9,11 @@
 
 /* Reset */
 
+	@font-face {
+    font-family: 'Audiowide-Regular';
+    src:url(../fonts/Audiowide-Regular.ttf) format('truetype');
+	}
+
 	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
 		margin: 0;
 		padding: 0;
@@ -1730,15 +1735,20 @@
 	}
 
 	header.major h2 {
-		color: #4acaa8;
-		font-size: 3.5em;
+		color: #763234;
+		font-size: 2em;
+		font-family: 'Audiowide-Regular';
 	}
 
 		header.major h2 + p {
-			color: #777;
-			font-size: 1.75em;
+			color: #763234;
+			font-size: 1em;
 			font-weight: 700;
 			margin-top: -0.75em;
+		}
+
+		#myTable {
+			
 		}
 
 /* Form */
@@ -3070,7 +3080,7 @@ input[type="button"].btn-block {
 		-webkit-justify-content: space-between;
 		-ms-justify-content: space-between;
 		justify-content: space-between;
-		background: #4acaa8;
+		background: #76323F; 
 		color: #d1f1e9;
 		height: 100%;
 		overflow-y: auto;
@@ -3156,10 +3166,11 @@ input[type="button"].btn-block {
 				list-style: none;
 				margin: 0;
 				padding: 0;
+				font-family: 'Audiowide-Regular';
 			}
 
 				#header > nav ul li {
-					border-top: solid 2px #5ccfb0;
+					border-top: solid 2px #76323F;
 					display: block;
 					padding: 0;
 				}
@@ -3170,7 +3181,6 @@ input[type="button"].btn-block {
 						-ms-transition: none;
 						transition: none;
 						border: 0;
-						color: #ffffff !important;
 						display: block;
 						padding: 0.85em 0;
 						text-decoration: none;
@@ -3209,7 +3219,7 @@ input[type="button"].btn-block {
 /* One */
 
 	#one:before {
-		background-image: url("../../images/banner1.jpg");
+		background-image: url("../../images/banner.jpg");
 		background-position: top right;
 		background-repeat: no-repeat;
 		background-size: cover;
@@ -3304,7 +3314,7 @@ input[type="button"].btn-block {
 		/* Header */
 
 			#header {
-				width: 20em;
+				width: 24em;
 			}
 
 		/* Wrapper */
@@ -3457,7 +3467,7 @@ input[type="button"].btn-block {
 					}
 
 					#titleBar .toggle:before {
-						background: #4acaa8;
+						background: #76323F;
 						color: #ffffff;
 						content: '\f0c9';
 						display: block;
