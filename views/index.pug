@@ -61,13 +61,24 @@ html
 					div(class='container')
 						header(class='major')
 							h2= 'Current Services'
-						table
+							p
+								| Sort by:
+								button(onclick='sortTable0()') Request ID
+								button(onclick='sortTable1()') Customer Name
+								button(onclick='sortTable2()') Service Name
+								button(onclick='sortTable3()') Scheduled Time
+								button(onclick='sortTable4()') Scheduled Day
+								button(onclick='sortTable5()') Status
+								button(onclick='sortTable6()') Payment
+
+
+						table(id='myTable')
 							tr
 									th= 'Request ID'
 									th= 'Customer Name'
 									th= 'Service Name'
 									th= 'Scheduled Time'
-									th=	'Scheduled Day'
+									th= 'Scheduled Day'
 									th= 'Status'
 									th= 'Payment'
 
@@ -105,3 +116,4 @@ script(src="assets/js/jquery.scrolly.min.js")
 script(src="assets/js/skel.min.js")
 script(src="assets/js/util.js")
 script(src="assets/js/main.js")
+script(src="assets/js/sort_table_current_services.js")
