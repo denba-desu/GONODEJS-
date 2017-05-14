@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var expressSession = require('express-session');
+var LocalStrategy = require('passport-local').Strategy;
 var port = 3000;
 
 app.set('views', './views');
@@ -28,8 +29,25 @@ function getMySQLConnection() {
 	});
 }
 
-
 app.get('/', function (req, res) {
+	res.render('login');
+})
+
+
+
+app.post('/', function (req, res) {
+	var email = req.body.email;
+	var password = req.body.password;
+	var connection = getMySQLConnection();
+	connection.connect();
+
+	connection.query('SELECT * FROM service_provider where email = ? and password = ? ;', [email, password], function (err, row, fields) {
+
+	})
+	connection.end();
+})
+
+app.get('/current_services', function (req, res) {
 	var currentCustomerList = [];
 
 	//Connect to MySQL database.
@@ -61,7 +79,7 @@ app.get('/', function (req, res) {
 			}
 
 			// Render index.pug page using array
-			res.render('index', {"currentCustomerList": currentCustomerList});
+			res.render('current_services', {"currentCustomerList": currentCustomerList});
 		}
 	});
 	connection.end();
@@ -74,7 +92,7 @@ app.post('/status', function (req, res) {
 
 	connection.query('UPDATE requests SET status="Done" WHERE request_id = ?;', [request_id], function (err, row, fields) {
 		var html = 'You successfully updated the service status of ID Request: ' + request_id + ' to "Done."' +
-					'<br><a href=/>Click here to go back in Current Services</a>'
+					'<br><a href=/current_services>Click here to go back in Current Services</a>'
 		res.send(html)
 	})
 	connection.end();
@@ -87,7 +105,7 @@ app.post('/payment', function (req, res) {
 
 	connection.query('UPDATE requests SET isPaid="T" WHERE request_id = ?;', [request_id1], function (err, row, fields) {
 		var html = 'You successfully updated the payment status of ID Request: ' + request_id1 + ' to "Paid."' +
-					'<br><a href=/>Click here to go back in Current Services</a>'
+					'<br><a href=/current_services>Click here to go back in Current Services</a>'
 		res.send(html)
 	})
 	connection.end();
