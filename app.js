@@ -30,12 +30,12 @@ function getMySQLConnection() {
 }
 
 app.get('/', function (req, res) {
-	res.render('login');
+	res.render('index');
 })
 
 
 
-app.post('/', function (req, res) {
+/*app.post('/', function (req, res) {
 	var email = req.body.email;
 	var password = req.body.password;
 	var connection = getMySQLConnection();
@@ -46,6 +46,7 @@ app.post('/', function (req, res) {
 	})
 	connection.end();
 })
+*/
 
 app.get('/current_services', function (req, res) {
 	var currentCustomerList = [];

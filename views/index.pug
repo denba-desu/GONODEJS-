@@ -106,7 +106,7 @@ html(lang='en')
                 br
                 input#password(type='password')
                 br
-                button(type='submit') Log in!
+                button(type='submit' onclick='redirect_currentServices()') Log in!
                 br
                 p.small
                     | Dont Have an Account?
@@ -192,3 +192,7 @@ html(lang='en')
         $('#password').blur(function() {
         $('label[for="password"]').removeClass('selected');
         });
+
+    script.
+        function redirect_currentServices()
+            window.location.href='/current_services'
