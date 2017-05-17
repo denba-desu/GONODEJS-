@@ -42,6 +42,8 @@ app.post('/', function (req, res) {
 	connection.connect();
 
 	connection.query('SELECT * FROM service_provider where email = ? and password = ? ;', [email, password], function (err, row, fields) {
+		console.log(email);
+		console.log(password);
 
 	})
 	connection.end();
@@ -55,7 +57,7 @@ app.get('/current_services', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT request_id, customer_name, service_name,  scheduled_time, scheduled_day, status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, customer b, services c where (status = "Ongoing" && a.customer_id = b.customer_id) && a.service_id = c.service_id', function (err, rows, fields) {
+	connection.query('SELECT request_id, customer_name, service_name,  scheduled_time, scheduled_day, status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, customer b, services c where ((status = "Ongoing" && isPaid = "F") || (status = "Done" && isPaid = "F")) &&  (a.customer_id = b.customer_id && a.service_id = c.service_id)', function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
