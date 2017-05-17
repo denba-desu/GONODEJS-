@@ -22,7 +22,7 @@ function getMySQLConnection() {
 	return mysql.createConnection({
 		host		: 'localhost',
 		user		: 'root',
-		password	: '',
+		password	: 'root',
 		database	: 'webtek-2',
 	});
 }
@@ -193,7 +193,7 @@ app.get('/history', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT request_id, customer_name, service_name,  scheduled_time, scheduled_day, status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, customer b, services c where (status = "Done" && a.customer_id = b.customer_id) && (a.service_id = c.service_id && isPaid = "T")', function (err, rows, fields) {
+	connection.query('SELECT request_id, customer_name, service_name,  scheduled_time, scheduled_day, status,IF(isPaid="T","Paid","Unpaid") as "Payment",rate FROM requests a, customer b, services c where (status = "Done" && a.customer_id = b.customer_id) && (a.service_id = c.service_id && isPaid = "T")', function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
@@ -209,7 +209,8 @@ app.get('/history', function (req, res) {
 					'scheduled_time': rows[i].scheduled_time,
 					'scheduled_day': rows[i].scheduled_day,
 					'status': rows[i].status,
-					'Payment': rows[i].Payment
+					'Payment': rows[i].Payment,
+					'rate': rows[i].rate
 				}
 				// Add object into array
 				historyServicesList.push(historyServices);
