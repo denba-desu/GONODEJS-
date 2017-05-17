@@ -1,24 +1,22 @@
 var path = require('path')
-var express = require('express');
-var app = express();
 var mysql = require('mysql');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
-var expressSession = require('express-session');
-var LocalStrategy = require('passport-local').Strategy;
+var express = require('express');
+var session = require('express-session');
+var app = express();
 var port = 3000;
 
 app.set('views', './views');
 app.set('view engine', 'pug');
 
-
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({extended: false}));
 app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(__dirname + '/views'));
-app.use(expressSession({secret: 'max', saveUninitialized: false, resave: false}));
+app.use(session({secret: 'ssshhhhh'}));
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({extended: true}));
 
 function getMySQLConnection() {
 	return mysql.createConnection({
@@ -29,26 +27,46 @@ function getMySQLConnection() {
 	});
 }
 
+var sess;
+
 app.get('/', function (req, res) {
-	res.render('index');
+	res.render('login');
 })
 
 
 
-/*app.post('/', function (req, res) {
-	var email = req.body.email;
-	var password = req.body.password;
+app.post('/', function (req, res) {
+	sess = req.session;
+	sess.email = req.body.email;
+	sess.password = req.body.password;
+
 	var connection = getMySQLConnection();
 	connection.connect();
 
-	connection.query('SELECT * FROM service_provider where email = ? and password = ? ;', [email, password], function (err, row, fields) {
-		console.log(email);
-		console.log(password);
+	console.log(sess.email);
+	console.log(sess.password);
 
+	connection.query('SELECT * FROM service_provider where sp_email = ? and sp_password = ?;', [sess.email, sess.password], function (err, rows, fields) {
+		console.log(rows.length);
+		if(rows.length == 1) {
+			res.redirect('current_services')
+		}else{
+			res.send(`
+			<!doctype html>
+			<html>
+			<head><title>Check Out</title></head>
+			<body>
+				<h1>Wrong credentials!</h1>
+				<p>Check if your email and password is correct.</p>
+				<p>Go back to the <a href='/'>Log-in Page</a></p>
+			</body>
+			</html>
+			`);
+		}
+		
 	})
 	connection.end();
 })
-*/
 
 app.get('/current_services', function (req, res) {
 	var currentCustomerList = [];
@@ -209,7 +227,7 @@ app.get('/profile', function (req, res) {
 	var connection = getMySQLConnection();
 	connection.connect();
 
-	connection.query('SELECT * from service_provider WHERE sp_id = "3004"', function (err, rows, fields) {
+	connection.query('SELECT * from service_provider WHERE sp_email = ?',[sess.email], function (err, rows, fields) {
 		if (err) {
 			throw err
 		} else {
@@ -236,7 +254,7 @@ app.get('/edit_profile', function (req, res) {
 	var connection = getMySQLConnection();
 	connection.connect();
 
-	connection.query('SELECT * from service_provider WHERE sp_id = "3004"', function (err, rows, fields) {
+	connection.query('SELECT * from service_provider WHERE sp_email = ?',[sess.email], function (err, rows, fields) {
 		if (err) {
 			throw err
 		} else {
@@ -270,6 +288,23 @@ app.get('/update_profile', function(req, res) {
 	})
 
 })
+
+app.get('/logout', function(request, response) {
+	sess.destroy();
+	response.send(`
+		<!doctype html>
+		<html>
+		<head><title>Logged out</title></head>
+		<body>
+			<h1>Goodbye!</h1>
+			<p>See you again.</p>
+			<p>You have been logged out.</p>
+			<p>Go back to the <a href='/login'>Home Page</a></p>
+		</body>
+		</html>
+	`);
+});
+
 
 
 app.listen(port, function(){
