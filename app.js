@@ -22,7 +22,7 @@ function getMySQLConnection() {
 	return mysql.createConnection({
 		host		: 'localhost',
 		user		: 'root',
-		password	: 'root',
+		password	: '',
 		database	: 'webtek-2',
 	});
 }
@@ -37,16 +37,15 @@ app.get('/', function (req, res) {
 
 app.post('/', function (req, res) {
 	sess = req.session;
-	sess.email = req.body.email;
-	sess.password = req.body.password;
+	sess.sp_id = req.body.email;
 
 	var connection = getMySQLConnection();
 	connection.connect();
 
-	console.log(sess.email);
-	console.log(sess.password);
+	console.log(sess.sp_id);
 
-	connection.query('SELECT * FROM service_provider where sp_email = ? and sp_password = ?;', [sess.email, sess.password], function (err, rows, fields) {
+
+	connection.query('SELECT * FROM service_provider where sp_id = ?;', [sess.sp_id], function (err, rows, fields) {
 		//console.log(rows.length);
 		if(rows.length == 1) {
 			res.redirect('current_services')
@@ -228,7 +227,7 @@ app.get('/profile', function (req, res) {
 	var connection = getMySQLConnection();
 	connection.connect();
 
-	connection.query('SELECT * from service_provider WHERE sp_email = ?',[sess.email], function (err, rows, fields) {
+	connection.query('SELECT * from service_provider WHERE sp_id = ?',[sess.sp_id], function (err, rows, fields) {
 		if (err) {
 			throw err
 		} else {
@@ -255,7 +254,7 @@ app.get('/edit_profile', function (req, res) {
 	var connection = getMySQLConnection();
 	connection.connect();
 
-	connection.query('SELECT * from service_provider WHERE sp_email = ?',[sess.email], function (err, rows, fields) {
+	connection.query('SELECT * from service_provider WHERE sp_id = ?',[sess.sp_id], function (err, rows, fields) {
 		if (err) {
 			throw err
 		} else {
