@@ -23,49 +23,29 @@ function getMySQLConnection() {
 		host		: 'localhost',
 		user		: 'root',
 		password	: '',
-		database	: 'webtek-2',
+		database	: 'webtek',
 	});
 }
 
 var sess;
 
-app.get('/', function (req, res) {
+app.get('login/', function (req, res) {
 	res.render('login');
 })
 
 
 
-app.post('/', function (req, res) {
+app.get('/', function (req, res) {
 	sess = req.session;
-	sess.sp_id = req.body.email;
-
-	var connection = getMySQLConnection();
-	connection.connect();
+	sess.sp_id = req.query.id;
+	//var id = req.query.id
 
 	console.log(sess.sp_id);
 
+	res.redirect('current_services')
 
-	connection.query('SELECT * FROM service_provider where sp_id = ?;', [sess.sp_id], function (err, rows, fields) {
-		//console.log(rows.length);
-		if(rows.length == 1) {
-			res.redirect('current_services')
-		}else{
-			res.send(`
-			<!doctype html>
-			<html>
-			<head><title>Check Out</title></head>
-			<body>
-				<h1>Wrong credentials!</h1>
-				<p>Check if your email and password is correct.</p>
-				<p>Go back to the <a href='/'>Log-in Page</a></p>
-			</body>
-			</html>
-			`);
-		}
-		
-	})
-	connection.end();
 })
+
 
 app.get('/current_services', function (req, res) {
 	var currentCustomerList = [];
@@ -298,7 +278,7 @@ app.get('/logout', function(request, response) {
 			<h1>Goodbye!</h1>
 			<p>See you again.</p>
 			<p>You have been logged out.</p>
-			<p>Go back to the <a href='/login'>Home Page</a></p>
+			<p>Go back to the <a href='http://10.0.12.145/itutor'>Home Page</a></p>
 		</body>
 		</html>
 	`);
