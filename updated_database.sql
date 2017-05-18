@@ -90,6 +90,7 @@ CREATE TABLE `requests` (
   `scheduled_day` varchar(45) NOT NULL,
   `status` enum('Ongoing','Done','Pending','Accepted') NOT NULL DEFAULT 'Pending',
   `isPaid` enum('T','F') NOT NULL DEFAULT 'F',
+  `payment` int(5) DEFAULT NULL,
   PRIMARY KEY (`request_id`),
   KEY `fk_spID_idx` (`sp_id`),
   KEY `fk_custID_idx` (`customer_id`),
@@ -106,7 +107,7 @@ CREATE TABLE `requests` (
 
 LOCK TABLES `requests` WRITE;
 /*!40000 ALTER TABLE `requests` DISABLE KEYS */;
-INSERT INTO `requests` VALUES (6000,2002,NULL,4000,'10:00 - 12:00','MWF','Ongoing','F'),(6001,2003,NULL,4001,'8:00 - 10:00','TTHS','Pending','F'),(6002,2004,NULL,4002,'3:00 - 5:00','MWF','Done','T'),(6003,2005,NULL,4003,'2:00 - 5:00','TTHS','Pending','F'),(6004,2006,NULL,4004,'1:00 - 3:00','MWF','Done','T'),(6005,2007,NULL,4005,'4:00 - 6:00','TTHS','Ongoing','F'),(6006,2002,NULL,4006,'9:00 - 10:00','MWF','Done','T'),(6007,2003,NULL,4007,'1:00 - 3:00','MWF','Ongoing','F'),(6009,2004,NULL,4008,'3:00 - 5:00','TTHS','Ongoing','F'),(6010,2005,NULL,4009,'8:00 - 10:00','TTHS','Done','T'),(6011,2002,NULL,4001,'8:00 - 10:00','MWF','Pending','F');
+INSERT INTO `requests` VALUES (6000,2002,NULL,4000,'10:00 - 12:00','MWF','Ongoing','F',NULL),(6001,2003,NULL,4001,'8:00 - 10:00','TTHS','Pending','F',NULL),(6002,2004,NULL,4002,'3:00 - 5:00','MWF','Done','T',NULL),(6003,2005,NULL,4003,'2:00 - 5:00','TTHS','Pending','F',NULL),(6004,2006,NULL,4004,'1:00 - 3:00','MWF','Done','T',NULL),(6005,2007,NULL,4005,'4:00 - 6:00','TTHS','Ongoing','F',NULL),(6006,2002,NULL,4006,'9:00 - 10:00','MWF','Done','F',NULL),(6007,2003,NULL,4007,'1:00 - 3:00','MWF','Ongoing','F',NULL),(6009,2004,NULL,4008,'3:00 - 5:00','TTHS','Ongoing','F',NULL),(6010,2005,NULL,4009,'8:00 - 10:00','TTHS','Done','T',NULL),(6011,2002,NULL,4001,'8:00 - 10:00','MWF','Pending','F',NULL);
 /*!40000 ALTER TABLE `requests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,6 +152,7 @@ DROP TABLE IF EXISTS `services`;
 CREATE TABLE `services` (
   `service_id` int(4) NOT NULL AUTO_INCREMENT,
   `service_name` varchar(45) NOT NULL,
+  `rate` int(4) NOT NULL,
   PRIMARY KEY (`service_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2008 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -161,7 +163,7 @@ CREATE TABLE `services` (
 
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
-INSERT INTO `services` VALUES (2002,'Piano Lessons'),(2003,'Voice Lessons'),(2004,'Guitar Lessons'),(2005,'Violin Lessons'),(2006,'Drum Lessons'),(2007,'Saxophone Lessons');
+INSERT INTO `services` VALUES (2002,'Piano Lessons',250),(2003,'Voice Lessons',200),(2004,'Guitar Lessons',250),(2005,'Violin Lessons',250),(2006,'Drum Lessons',300),(2007,'Saxophone Lessons',300);
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -174,4 +176,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-14 22:30:50
+-- Dump completed on 2017-05-17 20:29:45
