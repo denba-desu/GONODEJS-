@@ -47,7 +47,7 @@ app.post('/', function (req, res) {
 	console.log(sess.password);
 
 	connection.query('SELECT * FROM service_provider where sp_email = ? and sp_password = ?;', [sess.email, sess.password], function (err, rows, fields) {
-		console.log(rows.length);
+		//console.log(rows.length);
 		if(rows.length == 1) {
 			res.redirect('current_services')
 		}else{
