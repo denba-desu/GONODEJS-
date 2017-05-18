@@ -238,7 +238,6 @@ app.get('/profile', function (req, res) {
 				fullname: rows[0].sp_name,
 				email: rows[0].sp_email,
 				description : rows[0].sp_desc,
-				age : rows[0].sp_age,
 				contactno : rows[0].sp_contactno,
 				gender : rows[0].sp_gender,
 				homeaddress : rows[0].sp_homeaddress
