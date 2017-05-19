@@ -205,6 +205,7 @@ app.get('/history', function (req, res) {
 
 app.get('/profile', function (req, res) {
 	var connection = getMySQLConnection();
+	var connection1 = getMySQLConnection();
 	connection.connect();
 
 	connection.query('SELECT * from service_provider WHERE sp_id = ?',[sess.sp_id], function (err, rows, fields) {
@@ -225,6 +226,33 @@ app.get('/profile', function (req, res) {
 		}
 		connection.end();
 	})
+
+})
+
+app.get('/view_your_services', function (req,res) {
+	var personalServicesList = [];
+	var connection = getMySQLConnection();
+	connection.connect();
+
+	connection.query('select services.service_id, services.service_name, services.rate from provider_specialization inner join service_provider on provider_specialization.id_sp = service_provider.sp_id inner join services on provider_specialization.id_service = services.service_id where service_provider.sp_id = ?;', [sess.sp_id], function(err, rows, fields) {
+		if (err) {
+			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
+		}else{
+			for (var i = 0; i < rows.length; i++) {
+
+				var personalServices = {
+					'service_id': rows[i].service_id,
+					'service_name': rows[i].service_name,
+					'service_rate': rows[i].rate,
+
+				}
+				personalServicesList.push(personalServices);
+			}
+
+			res.render('sp_services', {"personalServicesList": personalServicesList});
+		}
+	})
+	connection.end();
 })
 	
 

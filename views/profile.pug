@@ -75,10 +75,11 @@ html
 							h5 Home Address
 							p= homeaddress
 
-							input(type='button' onclick='editProfile()' value='Edit')
+							input(type='button' onclick='editProfile()' value='View your Services')
+
 script.
 	function editProfile() {
-		window.location.href = '/edit_profile'
+		window.location.href = '/view_your_services'
 	}
 
 script(src='assets/js/jquery.min.js')
@@ -87,3 +88,4 @@ script(src="assets/js/jquery.scrolly.min.js")
 script(src="assets/js/skel.min.js")
 script(src="assets/js/util.js")
 script(src="assets/js/main.js")
+
