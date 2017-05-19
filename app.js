@@ -55,7 +55,7 @@ app.get('/current_services', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT request_id, customer_name, service_name,  scheduled_time, scheduled_day, status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, customer b, services c where ((status = "Ongoing" && isPaid = "F") || (status = "Done" && isPaid = "F")) &&  (a.customer_id = b.customer_id && a.service_id = c.service_id)', function (err, rows, fields) {
+	connection.query('SELECT request_id, customer_name, service_name,  scheduled_time, scheduled_day, status,IF(isPaid="T","Paid","Unpaid") as "Payment" FROM requests a, customer b, services c where (((status = "Ongoing" && isPaid = "F") || (status = "Done" && isPaid = "F")) &&  (a.customer_id = b.customer_id && a.service_id = c.service_id)) && a.sp_id = ?',[sess.sp_id], function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
@@ -121,7 +121,7 @@ app.get('/service_requests', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('select requests.request_id, services.service_name, customer.customer_name, requests.scheduled_time, requests.scheduled_day from provider_specialization inner join service_provider on provider_specialization.id_sp = service_provider.sp_id inner join services on provider_specialization.id_service = services.service_id inner join requests on requests.service_id = services.service_id inner join customer on customer.customer_id = requests.customer_id where services.service_id = ANY (Select service_id from services inner join provider_specialization on services.service_id = provider_specialization.id_service where provider_specialization.id_sp = ?);', [sess.sp_id], function (err, rows, fields) {
+	connection.query('SELECT request_id,service_name, customer_name, scheduled_time, scheduled_day FROM requests a, customer b, services c, service_provider d, provider_specialization e where (status = "Pending" && a.customer_id = b.customer_id) &&  a.service_id =any (select service_id from provider_specialization,service_provider where id_sp = ?)',[sess.sp_id], function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
@@ -172,7 +172,7 @@ app.get('/history', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT request_id, customer_name, service_name,  scheduled_time, scheduled_day, status,IF(isPaid="T","Paid","Unpaid") as "Payment",rate FROM requests a, customer b, services c where (status = "Done" && a.customer_id = b.customer_id) && (a.service_id = c.service_id && isPaid = "T")', function (err, rows, fields) {
+	connection.query('SELECT request_id, customer_name, service_name,  scheduled_time, scheduled_day, status,IF(isPaid="T","Paid","Unpaid") as "Payment",rate FROM requests a, customer b, services c where ((status = "Done" && a.customer_id = b.customer_id) && (a.service_id = c.service_id && isPaid = "T")) && a.sp_id = ?',[sess.sp_id], function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
