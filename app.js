@@ -241,7 +241,6 @@ app.get('/view_your_services', function (req,res) {
 			for (var i = 0; i < rows.length; i++) {
 
 				var personalServices = {
-					'service_id': rows[i].service_id,
 					'service_name': rows[i].service_name,
 					'service_rate': rows[i].rate,
 
