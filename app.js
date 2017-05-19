@@ -121,7 +121,7 @@ app.get('/service_requests', function (req, res) {
 	connection.connect();
 
 	//Query to get data.
-	connection.query('SELECT request_id,service_name, customer_name, scheduled_time, scheduled_day FROM requests a, customer b, services c, service_provider d, provider_specialization e where (status = "Pending" && a.customer_id = b.customer_id) &&  a.service_id =any (select service_id from provider_specialization,service_provider where id_sp = ?)',[sess.sp_id], function (err, rows, fields) {
+	connection.query('select distinct requests.request_id, services.service_name, customer.customer_name, requests.scheduled_time, requests.scheduled_day from provider_specialization inner join service_provider on provider_specialization.id_sp = service_provider.sp_id inner join services on provider_specialization.id_service = services.service_id inner join requests on requests.service_id = services.service_id inner join customer on customer.customer_id = requests.customer_id where services.service_id = ANY (Select service_id from services inner join provider_specialization on services.service_id = provider_specialization.id_service where provider_specialization.id_sp = ? && requests.status="Pending");', [sess.sp_id], function (err, rows, fields) {
 		if (err) {
 			res.status(500).json({"status_code": 500, "status_message": "internal server error"});
 		} else {
@@ -156,7 +156,7 @@ app.post('/service_requests', function(req, res) {
 	var connection = getMySQLConnection();
 	connection.connect();
 
-	connection.query('UPDATE requests SET status="Ongoing" WHERE request_id = ?;', [request_id], function(err, row, fields){
+	connection.query('UPDATE requests SET status="Ongoing", sp_id = ? WHERE request_id = ?;', [sess.sp_id, request_id], function(err, row, fields){
 		var html = 'You successfully accepted the request of ID Request: ' + request_id + '!' +
 					'<br><a href=/service_requests>Click here to go back in Service Requests</a>'
 		res.send(html)
