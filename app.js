@@ -23,7 +23,7 @@ function getMySQLConnection() {
 		host		: 'localhost',
 		user		: 'root',
 		password	: '',
-		database	: 'webtek',
+		database	: 'webtek-2',
 	});
 }
 
