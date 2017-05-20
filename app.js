@@ -23,7 +23,7 @@ function getMySQLConnection() {
 		host		: 'localhost',
 		user		: 'root',
 		password	: '',
-		database	: 'webtek-2',
+		database	: 'webtek',
 	});
 }
 
@@ -305,7 +305,7 @@ app.get('/logout', function(request, response) {
 			<h1>Goodbye!</h1>
 			<p>See you again.</p>
 			<p>You have been logged out.</p>
-			<p>Go back to the <a href='http://10.0.12.145/itutor'>Home Page</a></p>
+			<p>Go back to the <a href='http://10.0.12.148/itutor'>Home Page</a></p>
 		</body>
 		</html>
 	`);
